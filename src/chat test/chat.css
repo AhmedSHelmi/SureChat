@@ -1,0 +1,38 @@
+#msgWindow {
+  margin-top: 20px;
+}
+#msgs {
+  margin: 0px 25px;
+  min-height: 200px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.msg {
+  margin: 5px 0;
+  background:  WhiteSmoke;
+  padding: 3px 7px;
+  display: inline-block;
+  position: relative;
+  border-radius: 10px;
+  }
+  .from {
+    align-self: flex-end;
+  }
+  .to {
+    align-self: flex-start;
+   background:  #CEEEFF;
+border: none;
+    }
+ 
+
+}
+#msgForm {
+  input,button {
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}

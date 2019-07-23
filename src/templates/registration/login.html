@@ -1,0 +1,19 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<a class="btn btn-warning" href="{% url 'logout' %}">Logout?</a>
+{% else %}
+<h2>Login</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button class="btn btn-primary" type="submit">Login</button>
+  or <a class="btn btn-info" href="{% url 'signup' %}">Signup</a>
+
+</form>
+{% endif %}
+{% endblock %}
