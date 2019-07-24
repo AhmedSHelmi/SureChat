@@ -2,6 +2,14 @@ from rest_framework import authentication, generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_bulk import BulkUpdateAPIView
+import sys,os
+from django.http import Http404
+from django.urls import path
+from django.core.management import call_command
+from django.http import HttpResponse
+from django.utils.encoding import smart_str
+from Crypto.Cipher import AES
+
 
 from chat.models import Thread
 
@@ -67,3 +75,25 @@ class UnReadThreadCount(APIView):
 
     def get(self, *args, **kwargs):
         return Response({"count": self.get_queryset(self, *args, **kwargs)}, status=status.HTTP_200_OK)
+
+def export(request):
+    crypto_obj = AES.new('likeapieceofcakeyeah', AES.MODE_CFB, 16 * '\x00')
+    sysout = sys.stdout
+    sys.stdout = open('dump.json', 'w')
+    call_command('dumpdata')
+    sys.stdout = sysout
+    filename = 'dump.json'
+    #file_path = os.path.dirname("")
+    with open(filename, 'r') as f:
+        stream=f.read()
+        print(stream[:100])
+        ciphertext = crypto_obj.encrypt(stream)
+        print(ciphertext[:100])
+        plaintext=crypto_obj.decrypt(ciphertext)
+        print(plaintext[10:])
+        
+        response = HttpResponse(ciphertext, content_type='application/force-download')
+        response['Content-Disposition'] = 'attachment; filename=' + filename
+        response['Content-Type'] = 'application/force-download'
+        return response
+

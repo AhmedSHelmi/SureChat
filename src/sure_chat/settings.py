@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'corsheaders',
     'rest_framework',
+    'import_export',
     'chat',
     'chatapp',
     'crispy_forms',
@@ -180,3 +181,4 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+IMPORT_EXPORT_USE_TRANSACTIONS = True

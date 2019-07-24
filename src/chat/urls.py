@@ -10,5 +10,6 @@ urlpatterns = [
     path("messages/<int:thread>/unread/",
          views.UnReadThreadCount.as_view(), name="unread_count"),
 
-    path("messages/create/", views.MessageCreateView.as_view(), name="new_message")
+    path("messages/create/", views.MessageCreateView.as_view(), name="new_message"),
+    path("messages/dump/",views.export,name="test")
 ]

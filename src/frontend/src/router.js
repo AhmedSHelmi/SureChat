@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Chat from './components/chatcomponent.vue'
 import NotFound from './views/NotFound'
+import dbdump from './components/dbdump'
 
 Vue.use(Router)
 
@@ -31,6 +32,14 @@ let router = new Router({
           component: Chat,
           meta: {
             title: "Messages"
+          }
+        },
+        {
+          path: '/dbdump',
+          name: 'DBDump',
+          component: dbdump,
+          meta: {
+            title: "DBdump"
           }
         },
     {
