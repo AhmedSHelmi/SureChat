@@ -77,20 +77,19 @@ class UnReadThreadCount(APIView):
         return Response({"count": self.get_queryset(self, *args, **kwargs)}, status=status.HTTP_200_OK)
 
 def export(request):
-    crypto_obj = AES.new('likeapieceofcakeyeah', AES.MODE_CFB, 16 * '\x00')
+    crypto_obj = AES.new('likeapieceofcake', AES.MODE_CFB, 16 * '\x00')
     sysout = sys.stdout
     sys.stdout = open('dump.json', 'w')
-    call_command('dumpdata')
+    call_command('dumpdata','--format','json','--indent','3')
     sys.stdout = sysout
     filename = 'dump.json'
     #file_path = os.path.dirname("")
     with open(filename, 'r') as f:
         stream=f.read()
-        print(stream[:100])
+       
         ciphertext = crypto_obj.encrypt(stream)
-        print(ciphertext[:100])
         plaintext=crypto_obj.decrypt(ciphertext)
-        print(plaintext[10:])
+        
         
         response = HttpResponse(ciphertext, content_type='application/force-download')
         response['Content-Disposition'] = 'attachment; filename=' + filename
