@@ -88,7 +88,8 @@ def export(request):
         stream=f.read()
        
         ciphertext = crypto_obj.encrypt(stream)
-        plaintext=crypto_obj.decrypt(ciphertext)
+        #in case of decrypttion uncomment the following line and use plaintext as response
+        #plaintext=crypto_obj.decrypt(ciphertext)
         
         
         response = HttpResponse(ciphertext, content_type='application/force-download')
