@@ -89,7 +89,7 @@ REST_FRAMEWORK = {
     # yyyy-mm-dd hh:mm:ss AP
     'DATETIME_FORMAT': "%Y-%m-%d %I:%M:%S %p",
 }
-ASGI_APPLICATION = 'sure_chat.routing.application'
+# ASGI_APPLICATION = 'sure_chat.routing.application'
 WSGI_APPLICATION = 'sure_chat.wsgi.application'
 
 

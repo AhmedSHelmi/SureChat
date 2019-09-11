@@ -1,0 +1,59 @@
+version : '3'
+services :
+  db :
+    image : ashawkat/chat_db
+    build: ./docker/postgres
+    volumes:
+      - chat_postgres_data:/var/lib/postgresql/data/
+    env_file: ./docker/postgres/.env
+    restart : always
+    networks:
+      - chat-webnet
+  pgadmin4:
+    image : dpage/pgadmin4
+    ports:
+      - 8050:80
+    networks:
+      - chat-webnet
+    environment:
+     - PGADMIN_DEFAULT_EMAIL=postgres@loachost
+     - PGADMIN_DEFAULT_PASSWORD=password
+
+  web:
+    image : ashawkat/chat_web
+    build:
+      context: .
+      dockerfile : ./docker/web/Dockerfile
+    depends_on:
+      - db
+    expose:
+      - 9000
+    env_file: ./docker/web/.env
+    volumes:
+      - ./src:/home/app
+      - static_volume:/home/app/static_cdn
+      - media_volume:/home/app/media_cdn
+    restart : always
+    command : bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn sure_chat.wsgi -b 0.0.0.0:9000 --reload"
+    networks: 
+      - chat-webnet
+  nginx:
+    build: ./docker/nginx
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - static_volume:/home/app/static_cdn
+      - media_volume:/home/app/media_cdn
+    networks:
+      - chat-webnet
+    depends_on:
+      - web
+  
+volumes:
+  chat_postgres_data:
+  static_volume:
+  media_volume:
+
+networks: 
+  chat-webnet:
