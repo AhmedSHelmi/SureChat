@@ -18,7 +18,7 @@ export default {
     },methods:{
         down:function(){
       //TODO: chnage download Url After Deployment      
-     let url="http://localhost:8000/api/chat/messages/dump/"         
+     let url="http://3.19.228.139/api/chat/messages/dump/"         
       window.open(url, '_blank');
         }
     },
